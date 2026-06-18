@@ -3,17 +3,16 @@ import csv
 while True:
     menu()
     opcion = validar_num("Selecciona una opción del menú: ")
-
+    archivo = "paises.csv"
     match opcion:
         case 1 | "1":
             pass
         case 2 | "2":
-            archivo = "paises.csv"
             actualizar_pais(archivo)
         case 3 | "3":
             pass
         case 4 | "4":
-            pass
+            filtar_paises(archivo)
         case 5 | "5":
             pass
         case 6 | "6":
