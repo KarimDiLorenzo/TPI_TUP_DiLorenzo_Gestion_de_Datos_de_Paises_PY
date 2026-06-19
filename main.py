@@ -9,7 +9,7 @@ while True:
         case 2 | "2":
             actualizar_pais(archivo)
         case 3 | "3":
-            pass
+            buscar_pais(archivo)
         case 4 | "4":
             filtar_paises(archivo)
         case 5 | "5":

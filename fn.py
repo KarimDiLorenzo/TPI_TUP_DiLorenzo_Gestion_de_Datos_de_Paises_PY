@@ -38,18 +38,18 @@ def cargar_pais(paises): #Funcion que recibe los datos del usuario y carga un nu
         lector = csv.DictReader(archivo) 
         datos = list(lector)
         encabezados = lector.fieldnames
-    if any(p["nombre"] == nombre for p in datos):
+    if any(p['nombre'] == nombre for p in datos):
         print("País ya cargado en el archivo\n")
     else:
         nuevo_pais = {}
-        nuevo_pais["nombre"] = nombre
-        nuevo_pais["poblacion"] = validar_num(f"Ingresa la población de {nombre}: ")
-        nuevo_pais["superficie"] = validar_num(f"Ingresa la superficie de {nombre}: ")
-        nuevo_pais["continente"] = validar_str(f"Ingresa a que continente pertenece {nombre}: ")
+        nuevo_pais['nombre'] = nombre
+        nuevo_pais['poblacion'] = validar_num(f"Ingresa la población de {nombre}: ")
+        nuevo_pais['superficie'] = validar_num(f"Ingresa la superficie de {nombre}: ")
+        nuevo_pais['continente'] = validar_str(f"Ingresa a que continente pertenece {nombre}: ")
         with open(paises, "a", encoding = "utf-8", newline = "") as archivo:
             escritor = csv.DictWriter(archivo, fieldnames=encabezados)
             escritor.writerow(nuevo_pais)
-        print(f"País cargado - {nombre}  Población - {nuevo_pais["poblacion"]}  Superficie - {nuevo_pais["superficie"]}  Continente - {nuevo_pais["continente"]} ")
+        print(f"País cargado - {nombre}  Población - {nuevo_pais['poblacion']}  Superficie - {nuevo_pais['superficie']}  Continente - {nuevo_pais['continente']} ")
 
 def actualizar_pais(paises): #Función que recibe un país ingresado por el usuario, busca en el csv si existe y luego el usuario ingresa un nuevo valor de población y superficie
     buscado = validar_str("Qué país querés modificar?: ")
@@ -58,9 +58,9 @@ def actualizar_pais(paises): #Función que recibe un país ingresado por el usua
         datos = list(lector)
         encabezados = lector.fieldnames
     for p in datos:
-        if p["nombre"] == buscado:
-            p["poblacion"] = validar_num("Ingresá la población actualiada: ")
-            p["superficie"] = validar_num("Ingresa la superficie actualizada:")
+        if p['nombre'] == buscado:
+            p['poblacion'] = validar_num("Ingresá la población actualiada: ")
+            p['superficie'] = validar_num("Ingresa la superficie actualizada:")
     
     with open(paises, "r+", encoding = "utf-8", newline = "") as archivo:
         escritor = csv.DictWriter(archivo, fieldnames=encabezados)
@@ -68,7 +68,21 @@ def actualizar_pais(paises): #Función que recibe un país ingresado por el usua
         escritor.writerows(datos)
     for p in datos:
         if p["nombre"] == buscado:
-            print(f"País actualizado - {buscado}  Población - {p['poblacion']}  Superficie - {p['superficie']}")
+            print(f"País actualizado - {buscado}  Población - {p['poblacion']}  Superficie - {p['superficie']}  Continente - {p['continente']}")
+
+
+def  buscar_pais(paises): #Función que recibe un nombre parcial o total y busca en el csv 
+    buscado = validar_str("Qué país querés buscar?: ")
+    encontrado = False
+    with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
+        lector = csv.DictReader(archivo) 
+        datos = list(lector)
+    for p in datos:
+        if buscado in p['nombre']:
+            print(f"País - {p['nombre']}  Población - {p['poblacion']}  Superficie - {p['superficie']}  Continente - {p['continente']}")
+            encontrado = True
+    if not encontrado:
+        print(f"{buscado} no coincide parcial ni totalmente con ningún país del archivo")
 
 def filtar_paises (paises): #Función que agrupa 3 filtros distintos según el que quiera el usuario
     print("Filtros: Continente, Población o Superficie")
@@ -88,11 +102,11 @@ def filtrar_x_continente(paises): #Función que  pide un continente y muestra to
     with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
         lector = csv.DictReader(archivo) 
         continentes = list(lector)
-    if any (b["continente"] == continente for b in continentes):
+    if any (b['continente'] == continente for b in continentes):
         print(f"Países de {continente}")
         for c in continentes: 
-            if c["continente"] == continente:
-                print(f"País - {c["nombre"]}  Población - {c['poblacion']}  Superficie - {c['superficie']}")
+            if c['continente'] == continente:
+                print(f"País - {c['nombre']}  Población - {c['poblacion']}  Superficie - {c['superficie']}")
     else:
         print("ERROR - El continente no esta en los archivos")
 
@@ -103,11 +117,11 @@ def filtrar_x_poblacion(paises): #Función que pide un rango de población y mue
         with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
             lector = csv.DictReader(archivo) 
             poblacion = list(lector)
-        if any ( minimo < int(p["poblacion"]) < maximo for p in poblacion):
+        if any ( minimo < int(p['poblacion']) < maximo for p in poblacion):
             print(f"Paises entre {minimo} y {maximo} de población")
             for p in poblacion:
-                if minimo < int(p["poblacion"]) < maximo:
-                    print(f"País - {p["nombre"]}   Población - {p["poblacion"]}")
+                if minimo < int(p['poblacion']) < maximo:
+                    print(f"País - {p['nombre']}   Población - {p['poblacion']}")
         else:
             print("No hay ningún país en ese rango")
     else:
@@ -120,11 +134,11 @@ def filtrar_x_superficie(paises): #Función que pide un rango de superficie y mu
         with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
             lector = csv.DictReader(archivo) 
             superficies = list(lector)
-        if any ( minimo < int(s["superficie"]) < maximo for s in superficies):
+        if any ( minimo < int(s['superficie']) < maximo for s in superficies):
             print(f"Paises entre {minimo} y {maximo} de superficie")
             for s in superficies:
-                if minimo < int(s["superficie"]) < maximo:
-                    print(f"País - {s["nombre"]}   Superficie - {s["superficie"]}")
+                if minimo < int(s['superficie']) < maximo:
+                    print(f"País - {s['nombre']}   Superficie - {s['superficie']}")
         else:
             print("No hay ningún país en ese rango")
     else:
@@ -149,10 +163,10 @@ def ordenar_x_nombre(paises): #Función que ordena los países cargados en base 
     with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
         lector = csv.DictReader(archivo) 
         nombres = list(lector)
-    orden_nombre = sorted(nombres, key=lambda n: n["nombre"])
+    orden_nombre = sorted(nombres, key=lambda n: n['nombre'])
     print("Lista de paises ordenados por nombre\n")
     for p in orden_nombre:
-        print(f"País - {p["nombre"]}  Población - {p["poblacion"]}  Superficie - {p["superficie"]}  Continente - {p["continente"]}")
+        print(f"País - {p['nombre']}  Población - {p['poblacion']}  Superficie - {p['superficie']}  Continente - {p['continente']}")
 
 def ordenar_x_poblacion(paises): #Función que ordena los países cargados en base a su población 
     with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
@@ -161,22 +175,22 @@ def ordenar_x_poblacion(paises): #Función que ordena los países cargados en ba
     orden_poblacion = sorted(poblaciones, key=lambda p: int(p["poblacion"]))
     print("Lista de paises ordenados por poblacion\n")
     for p in orden_poblacion:
-        print(f"País - {p["nombre"]}  Población - {p["poblacion"]}  Superficie - {p["superficie"]}  Continente - {p["continente"]}")
+        print(f"País - {p['nombre']}  Población - {p['poblacion']}  Superficie - {p['superficie']}  Continente - {p['continente']}")
 
 def ordenar_x_sa(paises): #Función que ordena los países cargados en base a su superficie de manera ascendente 
     with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
         lector = csv.DictReader(archivo) 
         sa = list(lector)
-    orden_sa = sorted(sa, key=lambda s: int(s["superficie"]))
+    orden_sa = sorted(sa, key=lambda s: int(s['superficie']))
     print("Lista de paises ordenados por superficie ascendente\n")
     for s in orden_sa:
-        print(f"País - {s["nombre"]}  Población - {s["poblacion"]}  Superficie - {s["superficie"]}  Continente - {s["continente"]}")
+        print(f"País - {s['nombre']}  Población - {s['poblacion']}  Superficie - {s['superficie']}  Continente - {s['continente']}")
 
 def ordenar_x_sd(paises): #Función que ordena los países cargados en base a su superficie de manera descendente
     with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
         lector = csv.DictReader(archivo) 
         sd = list(lector)
-    orden_sd = sorted(sd, key=lambda s: int(s["superficie"]), reverse= True)
+    orden_sd = sorted(sd, key=lambda s: int(s['superficie']), reverse= True)
     print("Lista de paises ordenados por superficie descendente\n")
     for s in orden_sd:
-        print(f"País - {s["nombre"]}  Población - {s["poblacion"]}  Superficie - {s["superficie"]}  Continente - {s["continente"]}")
+        print(f"País - {s['nombre']}  Población - {s['poblacion']}  Superficie - {s['superficie']}  Continente - {s['continente']}")
