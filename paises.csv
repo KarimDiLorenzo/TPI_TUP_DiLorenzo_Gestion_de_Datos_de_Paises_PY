@@ -1,9 +1,8 @@
 nombre,poblacion,superficie,continente
-Argentina,4,4,America
-Japón,3,377975,Asia
-Brasil,2,8515767,America
-Alemania,83149300,357022,Europa
-Paraguay,44401,88778,America
-España,2222,3333,Europa
-China,9999,99666,Asia
-
+Argentina,1,4,America
+Japón,2,3,Asia
+Brasil,3,5,America
+Alemania,4,6,Europa
+Paraguay,5,7,America
+España,6,8,Europa
+China,7,9,Asia

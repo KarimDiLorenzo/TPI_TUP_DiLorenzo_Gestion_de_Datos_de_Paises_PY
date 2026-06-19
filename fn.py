@@ -110,3 +110,54 @@ def filtrar_x_superficie(paises): #Función que pide un rango de superficie y mu
             print("No hay ningún país en ese rango")
     else:
         print("ERROR - El mínimo no puede ser mayor al máximo")
+
+def ordenar_paises(paises): #Función que agrupa 3 tipos de orden distintos según el que quiera el usuario
+    print("Tipos de orden: Nombre, Población, Superficie ascendente (SA), Superficie descendente (SD)")
+    opcion = validar_str("Qué orden querés aplicar (Ingresa N, P, SA o SD)?: \n")
+    match opcion:
+        case "N":
+            ordenar_x_nombre(paises)
+        case "P":
+            ordenar_x_poblacion(paises)
+        case "SA" | "Sa":
+            ordenar_x_sa(paises)
+        case "SD" | "Sd":
+            ordenar_x_sd(paises)
+        case _:
+            print("ERROR - Ingresa un orden válido") 
+
+def ordenar_x_nombre(paises): #Función que ordena los países cargados en base a su nombre 
+    with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
+        lector = csv.DictReader(archivo) 
+        nombres = list(lector)
+    orden_nombre = sorted(nombres, key=lambda n: n["nombre"])
+    print("Lista de paises ordenados por nombre\n")
+    for p in orden_nombre:
+        print(f"País - {p["nombre"]}  Población - {p["poblacion"]}  Superficie - {p["superficie"]}  Continente - {p["continente"]}")
+
+def ordenar_x_poblacion(paises): #Función que ordena los países cargados en base a su población 
+    with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
+        lector = csv.DictReader(archivo) 
+        poblaciones = list(lector)
+    orden_poblacion = sorted(poblaciones, key=lambda p: int(p["poblacion"]))
+    print("Lista de paises ordenados por poblacion\n")
+    for p in orden_poblacion:
+        print(f"País - {p["nombre"]}  Población - {p["poblacion"]}  Superficie - {p["superficie"]}  Continente - {p["continente"]}")
+
+def ordenar_x_sa(paises): #Función que ordena los países cargados en base a su superficie de manera ascendente 
+    with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
+        lector = csv.DictReader(archivo) 
+        sa = list(lector)
+    orden_sa = sorted(sa, key=lambda s: int(s["superficie"]))
+    print("Lista de paises ordenados por superficie ascendente\n")
+    for s in orden_sa:
+        print(f"País - {s["nombre"]}  Población - {s["poblacion"]}  Superficie - {s["superficie"]}  Continente - {s["continente"]}")
+
+def ordenar_x_sd(paises): #Función que ordena los países cargados en base a su superficie de manera descendente
+    with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
+        lector = csv.DictReader(archivo) 
+        sd = list(lector)
+    orden_sd = sorted(sd, key=lambda s: int(s["superficie"]), reverse= True)
+    print("Lista de paises ordenados por superficie descendente\n")
+    for s in orden_sd:
+        print(f"País - {s["nombre"]}  Población - {s["poblacion"]}  Superficie - {s["superficie"]}  Continente - {s["continente"]}")

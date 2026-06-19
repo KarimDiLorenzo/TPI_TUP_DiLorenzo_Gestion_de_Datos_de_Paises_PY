@@ -14,7 +14,7 @@ while True:
         case 4 | "4":
             filtar_paises(archivo)
         case 5 | "5":
-            pass
+            ordenar_paises(archivo)
         case 6 | "6":
             pass
         case 7 | "7":
