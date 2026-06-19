@@ -32,6 +32,25 @@ def validar_str(mensaje): #Función validadora de strings (verifica que el nómb
         except TypeError:
             print("ERROR - Ingresa solo texto \n")
 
+def cargar_pais(paises): #Funcion que recibe los datos del usuario y carga un nuevo país
+    nombre = validar_str("Ingresa el nombre del país: ")
+    with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
+        lector = csv.DictReader(archivo) 
+        datos = list(lector)
+        encabezados = lector.fieldnames
+    if any(p["nombre"] == nombre for p in datos):
+        print("País ya cargado en el archivo\n")
+    else:
+        nuevo_pais = {}
+        nuevo_pais["nombre"] = nombre
+        nuevo_pais["poblacion"] = validar_num(f"Ingresa la población de {nombre}: ")
+        nuevo_pais["superficie"] = validar_num(f"Ingresa la superficie de {nombre}: ")
+        nuevo_pais["continente"] = validar_str(f"Ingresa a que continente pertenece {nombre}: ")
+        with open(paises, "a", encoding = "utf-8", newline = "") as archivo:
+            escritor = csv.DictWriter(archivo, fieldnames=encabezados)
+            escritor.writerow(nuevo_pais)
+        print(f"País cargado - {nombre}  Población - {nuevo_pais["poblacion"]}  Superficie - {nuevo_pais["superficie"]}  Continente - {nuevo_pais["continente"]} ")
+
 def actualizar_pais(paises): #Función que recibe un país ingresado por el usuario, busca en el csv si existe y luego el usuario ingresa un nuevo valor de población y superficie
     buscado = validar_str("Qué país querés modificar?: ")
     with open(paises, "r", encoding = "utf-8", newline = "") as archivo:

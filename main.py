@@ -1,12 +1,11 @@
 from fn import * 
-import csv
 while True:
     menu()
     opcion = validar_num("Selecciona una opción del menú: ")
     archivo = "paises.csv"
     match opcion:
         case 1 | "1":
-            pass
+            cargar_pais(archivo)
         case 2 | "2":
             actualizar_pais(archivo)
         case 3 | "3":
