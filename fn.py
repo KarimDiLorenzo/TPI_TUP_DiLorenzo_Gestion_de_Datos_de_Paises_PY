@@ -194,3 +194,84 @@ def ordenar_x_sd(paises): #Función que ordena los países cargados en base a su
     print("Lista de paises ordenados por superficie descendente\n")
     for s in orden_sd:
         print(f"País - {s['nombre']}  Población - {s['poblacion']}  Superficie - {s['superficie']}  Continente - {s['continente']}")
+
+def estadisticas_pais(paises): #Función que agrupa las distintas estadísticas que el usuario puede elegir
+    print("Estadísticas: Mayor y menor población, Promedio de población, Promedio de superficie, Cantidad de países por continente")
+    opcion = validar_str("Qué orden querés aplicar (Ingresa MM, PP, PS o CP)?: ")
+    match opcion:
+        case "MM" | "Mm":
+            estadistica_mm(paises) 
+        case "PP" | "Pp":
+            estadistica_pp(paises) 
+        case "PS" | "Ps":
+            estadistica_ps(paises) 
+        case "CP" | "Cp":
+            estadistica_cp(paises) 
+        case _:
+            print("ERROR - Ingresa una estadística válido") 
+
+def estadistica_mm(paises): #Función que muestra el país con menor y mayor población
+    maximo = 1
+    minimo = 999999999
+    mayor_poblacion = {}
+    menor_poblacion = {}
+    with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
+        lector = csv.DictReader(archivo) 
+        mm = list(lector)
+    for poblacion in mm:
+        poblacion_actual = int(poblacion["poblacion"])
+        if poblacion_actual >= maximo:
+            mayor_poblacion = {'nombre': poblacion['nombre'], 'poblacion': poblacion['poblacion']}
+            maximo = poblacion_actual
+        if poblacion_actual <= minimo:
+            menor_poblacion = {'nombre': poblacion['nombre'], 'poblacion': poblacion['poblacion']}
+            minimo = poblacion_actual 
+    print("\nPaís de menor población")
+    print(f"País - {menor_poblacion['nombre']}  Población - {menor_poblacion['poblacion']}\n")
+    print("País de mayor población")
+    print(f"País - {mayor_poblacion['nombre']}  Población - {mayor_poblacion['poblacion']}")
+
+def estadistica_pp(paises): #Función que calcula y muestra el promedio de población de todos los países
+    cantidad = 0
+    suma = 0
+    with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
+        lector = csv.DictReader(archivo) 
+        pp = list(lector)
+    for poblacion in pp:
+        suma += int(poblacion['poblacion'])
+        cantidad +=1
+    promedio_pp = suma/cantidad
+    print(f"El promedio de población es {promedio_pp:.2f} personas")
+
+def estadistica_ps(paises): #Función que calcula y muestra el promedio de superficie de todos los países
+    cantidad = 0
+    suma = 0
+    with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
+        lector = csv.DictReader(archivo) 
+        ps = list(lector)
+    for superficie in ps:
+        suma += int(superficie['superficie'])
+        cantidad +=1
+    promedio_pp = suma/cantidad
+    print(f"El promedio de superficie es {promedio_pp:.2f} km^2")
+
+def estadistica_cp(paises):
+    america = asia = africa = europa = oceania = 0
+    with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
+        lector = csv.DictReader(archivo) 
+        pc = list(lector)
+        for c in pc:
+            continente = c['continente']
+            match continente:
+                case "America":
+                    america +=1
+                case "Asia":
+                    asia +=1
+                case "Europa":
+                    europa +=1
+                case "Africa":
+                    africa +=1
+                case "Oceania":
+                    oceania +=1
+        print("\nCantidad de paises por continente")
+        print(f"America - {america}  Asia - {asia}  Africa - {africa}  Europa - {europa}  Oceanía - {oceania}")

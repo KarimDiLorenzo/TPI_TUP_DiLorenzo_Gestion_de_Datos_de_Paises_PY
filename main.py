@@ -15,7 +15,7 @@ while True:
         case 5 | "5":
             ordenar_paises(archivo)
         case 6 | "6":
-            pass
+            estadisticas_pais(archivo)
         case 7 | "7":
             print("Gracias por usar el sistema!")
             break

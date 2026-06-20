@@ -1,5 +1,5 @@
 nombre,poblacion,superficie,continente
-Argentina,1,4,America
+Argentina,10000,10000,America
 Japón,2,3,Asia
 Brasil,3,5,America
 Alemania,4,6,Europa
@@ -8,3 +8,5 @@ España,6,8,Europa
 China,7,9,Asia
 Peru,10,10,America
 Chile,1,2,America
+Arabia,20,60,Asia
+Egipto,200,20,Africa
