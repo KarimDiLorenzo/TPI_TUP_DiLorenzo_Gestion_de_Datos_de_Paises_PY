@@ -22,14 +22,14 @@ def validar_num(valor): #Función validadora de la opción del menú (que sea un
             print("ERROR: Ingresa un número \n")
 
 def validar_str(mensaje): #Función validadora de strings (verifica que el nómbre sea válido)
-    while True: 
-        try:
-            cadena = input(mensaje).strip().capitalize()
-            if cadena.isalpha():
-                return cadena
-            else:
-                print("ERROR - No puede ser vacío \n")
-        except TypeError:
+    while True:
+        cadena = input(mensaje).strip().title()
+        if not cadena:
+            print("ERROR - No puede ser vacío \n")
+            continue
+        if cadena.replace(" ", "").isalpha():
+            return cadena
+        else:
             print("ERROR - Ingresa solo texto \n")
 
 def cargar_pais(paises): #Funcion que recibe los datos del usuario y carga un nuevo país
@@ -53,6 +53,7 @@ def cargar_pais(paises): #Funcion que recibe los datos del usuario y carga un nu
 
 def actualizar_pais(paises): #Función que recibe un país ingresado por el usuario, busca en el csv si existe y luego el usuario ingresa un nuevo valor de población y superficie
     buscado = validar_str("Qué país querés modificar?: ")
+    encontrado = False
     with open(paises, "r", encoding = "utf-8", newline = "") as archivo:
         lector = csv.DictReader(archivo) 
         datos = list(lector)
@@ -61,6 +62,7 @@ def actualizar_pais(paises): #Función que recibe un país ingresado por el usua
         if p['nombre'] == buscado:
             p['poblacion'] = validar_num("Ingresá la población actualiada: ")
             p['superficie'] = validar_num("Ingresa la superficie actualizada:")
+            encontrado = True
     
     with open(paises, "r+", encoding = "utf-8", newline = "") as archivo:
         escritor = csv.DictWriter(archivo, fieldnames=encabezados)
@@ -69,7 +71,8 @@ def actualizar_pais(paises): #Función que recibe un país ingresado por el usua
     for p in datos:
         if p["nombre"] == buscado:
             print(f"País actualizado - {buscado}  Población - {p['poblacion']}  Superficie - {p['superficie']}  Continente - {p['continente']}")
-
+    if not encontrado:
+        print(f"{buscado} no coincide con ningún país del archivo")
 
 def  buscar_pais(paises): #Función que recibe un nombre parcial o total y busca en el csv 
     buscado = validar_str("Qué país querés buscar?: ")
@@ -82,7 +85,7 @@ def  buscar_pais(paises): #Función que recibe un nombre parcial o total y busca
             print(f"País - {p['nombre']}  Población - {p['poblacion']}  Superficie - {p['superficie']}  Continente - {p['continente']}")
             encontrado = True
     if not encontrado:
-        print(f"{buscado} no coincide parcial ni totalmente con ningún país del archivo")
+        print(f"{buscado} no coincide con ningún país del archivo")
 
 def filtar_paises (paises): #Función que agrupa 3 filtros distintos según el que quiera el usuario
     print("Filtros: Continente, Población o Superficie")
@@ -125,7 +128,7 @@ def filtrar_x_poblacion(paises): #Función que pide un rango de población y mue
         else:
             print("No hay ningún país en ese rango")
     else:
-        print("ERROR - El mínimo no puede ser mayor al máximo")
+        print("ERROR - El mínimo debe ser menor al máximo")
 
 def filtrar_x_superficie(paises): #Función que pide un rango de superficie y muestra todos los países dentro del rango
     minimo = validar_num("Ingresa el mínimo de superficie: ")
@@ -142,7 +145,7 @@ def filtrar_x_superficie(paises): #Función que pide un rango de superficie y mu
         else:
             print("No hay ningún país en ese rango")
     else:
-        print("ERROR - El mínimo no puede ser mayor al máximo")
+        print("ERROR - El mínimo debe ser menor al máximo")
 
 def ordenar_paises(paises): #Función que agrupa 3 tipos de orden distintos según el que quiera el usuario
     print("Tipos de orden: Nombre, Población, Superficie ascendente (SA), Superficie descendente (SD)")
@@ -208,7 +211,7 @@ def estadisticas_pais(paises): #Función que agrupa las distintas estadísticas 
         case "CP" | "Cp":
             estadistica_cp(paises) 
         case _:
-            print("ERROR - Ingresa una estadística válido") 
+            print("ERROR - Ingresa una estadística válida") 
 
 def estadistica_mm(paises): #Función que muestra el país con menor y mayor población
     maximo = 1
