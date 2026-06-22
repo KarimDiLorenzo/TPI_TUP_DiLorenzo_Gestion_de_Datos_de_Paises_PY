@@ -62,6 +62,7 @@ def actualizar_pais(paises): #Función que recibe un país ingresado por el usua
         if p['nombre'] == buscado:
             p['poblacion'] = validar_num("Ingresá la población actualiada: ")
             p['superficie'] = validar_num("Ingresa la superficie actualizada:")
+            p['continente'] = validar_str("Ingresa el continente actualizado: ")
             encontrado = True
     
     with open(paises, "r+", encoding = "utf-8", newline = "") as archivo:
