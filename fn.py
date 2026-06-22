@@ -267,7 +267,7 @@ def estadistica_cp(paises):
         for c in pc:
             continente = c['continente']
             match continente:
-                case "America":
+                case "America" | "América":
                     america +=1
                 case "Asia":
                     asia +=1
